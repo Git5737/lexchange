@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package chat.grpc;
+
+option go_package = "lexchanger/gen/chat;chat";
+
+service ChatServise {
+  rpc eventStream(stream Events) returns (stream Events);
+}
+
+message Events {
+  oneof event {
+    Login    client_login    = 1;
+    Logout   client_logout   = 2;
+    Message  client_message  = 3;
+    Shutdown server_shutdown = 4;
+  }
+
+  message Login {
+    string name = 1;
+  }
+
+  message Logout {
+    string name = 1;
+  }
+
+  message Message {
+    string name    = 1;
+    string message = 2;
+  }
+
+  message Shutdown {
+    // Empty message
+  }
+}
